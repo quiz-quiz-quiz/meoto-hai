@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEOTO杯 | クイズ大会</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Vue 3 & Vue Router CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/vue-router@4"></script>
+
+  <style>
+    /* =========================================
+       共通設定・変数
+    ========================================= */
+    :root {
+      --color-white: #ffffff;
+      --color-text: #2c2c2c;
+      --color-accent-red: #ff0000;
+      --color-accent-gold: #b8a240;
+      --color-border: #e0e0e0; 
+    }
+    body {
+      margin: 0;
+      font-family: 'Noto Serif JP', serif;
+      color: var(--color-text);
+      background-color: var(--color-white);
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+      overflow-x: hidden; 
+    }
+    a { color: inherit; text-decoration: none; transition: 0.2s; }
+    h1, h2, h3, h4, h5, h6 { font-weight: 500; }
+    
+    /* Vueの読み込み前のチラつき防止 */
+    [v-cloak] { display: none; }
+
+    /* =========================================
+       準備中（レビューコード）画面
+    ========================================= */
+    .auth-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    .auth-screen h2 { font-size: 2rem; letter-spacing: 0.2em; margin-bottom: 10px; }
+    .auth-screen p { margin-bottom: 30px; font-size: 0.95rem; color: #666; }
+    .auth-input {
+      padding: 12px; font-size: 1.2rem; text-align: center;
+      border: 1px solid var(--color-border);
+      outline: none; margin-bottom: 20px; letter-spacing: 0.1em;
+      width: 200px;
+    }
+    .auth-input:focus { border-color: var(--color-accent-gold); }
+    .auth-btn {
+      padding: 12px 40px; background: var(--color-white);
+      border: 1px solid var(--color-border); cursor: pointer;
+      font-family: inherit; font-weight: 700; letter-spacing: 0.1em;
+      transition: 0.3s;
+    }
+    .auth-btn:hover { border-color: var(--color-accent-gold); color: var(--color-accent-gold); }
+    .auth-error { color: var(--color-accent-red); margin-top: 15px; font-weight: bold; }
+
+    /* =========================================
+       スクロールアニメーション（v-fade用）
+    ========================================= */
+    .v-fade-hidden {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .v-fade-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================
+       ヘッダー・ナビゲーション
+    ========================================= */
+    .header {
+      background: var(--color-white);
+      border-bottom: 2px solid var(--color-accent-gold);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 20px; max-width: 1000px; margin: 0 auto;
+    }
+    .header-title { font-size: 1.3rem; margin: 0; white-space: nowrap; letter-spacing: 0.15em; }
+    .header-title a:hover { color: var(--color-accent-gold); }
+    
+    .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 6px; z-index: 101; padding: 5px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background-color: var(--color-text); transition: 0.3s; }
+    .hamburger.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.is-active span:nth-child(2) { opacity: 0; }
+    .hamburger.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .nav-menu {
+      position: absolute; top: 100%; left: 0; width: 100%; background: var(--color-white);
+      border-bottom: 1px solid var(--color-border); max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+    }
+    .nav-menu.is-open { max-height: 350px; }
+    .nav-menu ul { list-style: none; padding: 0; margin: 0; }
+    .nav-menu li a {
+      display: block; padding: 15px 20px; border-top: 1px solid var(--color-border);
+      font-weight: 700; font-size: 0.95rem; letter-spacing: 0.1em;
+    }
+
+    @media (min-width: 768px) {
+      .hamburger { display: none; }
+      .nav-menu { position: static; max-height: none; border-bottom: none; width: auto; }
+      .nav-menu ul { display: flex; gap: 30px; }
+      .nav-menu li a { border-top: none; padding: 5px 0; font-size: 1rem; }
+      .nav-menu li a:hover { color: var(--color-accent-red); }
+    }
+
+    /* =========================================
+       メインコンテンツ・各ページ共通
+    ========================================= */
+    .main-content {
+      padding: 50px 20px; max-width: 800px; margin: 0 auto; min-height: 70vh;
+    }
+    .page-title { text-align: center; font-size: 1.8rem; color: var(--color-text); margin-bottom: 20px; letter-spacing: 0.2em; }
+    .mizuhiki-line { width: 100%; height: 40px; background: url('MEOTO_logo_mizuhiki_line.svg') no-repeat center center; background-size: 100% auto; margin: 20px 0 40px 0; }
+
+    /* =========================================
+       TOPページ
+    ========================================= */
+    .hero { 
+      margin-top: calc(5rem - 50px); margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+      margin-bottom: 50px; width: 100vw;
+    }
+    .hero-logo { width: 100%; height: 7rem; object-fit: cover; display: block; }
+    @media (min-width: 768px) { .hero-logo { height: auto; object-fit: initial; } }
+    .intro { text-align: center; }
+
+    .btn-group { display: flex; flex-direction: column; gap: 15px; margin-top: 20px;}
+    .btn {
+      display: block; text-align: center; padding: 15px; background: var(--color-white);
+      border: 1px solid var(--color-border); border-radius: 0; font-weight: 700;
+      transition: 0.2s; letter-spacing: 0.1em;
+    }
+    .btn:hover { border-color: var(--color-accent-gold); color: var(--color-accent-gold); }
+    
+    .btn-entry { background: var(--color-white); color: var(--color-accent-red); border: 2px solid var(--color-accent-red); }
+    .btn-entry:hover { background: var(--color-accent-red); color: var(--color-white); }
+    
+    @media (min-width: 768px) { .btn-group { flex-direction: row; justify-content: center; gap: 20px; } .btn { width: 220px; } }
+
+    /* =========================================
+       大会概要
+    ========================================= */
+    .event-section h3 { margin-top: 0; color: var(--color-text); font-size: 1.3rem; margin-bottom: 20px; letter-spacing: 0.15em; }
+    .event-section h3::before { content: ''; display: inline-block; width: 4px; height: 1em; background: var(--color-accent-gold); margin-right: 10px; vertical-align: -0.1em; }
+    
+    /* スマホ表示では縦並び */
+    dl { margin-bottom: 15px; }
+    dt { font-weight: 700; color: var(--color-accent-gold); letter-spacing: 0.1em; margin-top: 15px; margin-bottom: 5px; }
+    dt:first-child { margin-top: 0; }
+    dd { margin: 0 0 0 10px; }
+
+    /* PC表示では横並び（レギュレーションが改行されないように 150px を確保） */
+    @media (min-width: 768px) { 
+      dl { display: grid; grid-template-columns: 150px 1fr; gap: 15px 10px; }
+      dt { margin: 0; }
+      dd { margin: 0; }
+    }
+    
+    .note { font-size: 0.85rem; color: var(--color-accent-red); margin-top: 15px; }
+    .items-list { list-style: none; padding: 0; margin: 0; }
+    .items-list li::before { content: '・'; }
+
+    /* =========================================
+       作問者紹介
+    ========================================= */
+    .creator-name { font-size: 1.4rem; color: var(--color-text); margin-top: 0; margin-bottom: 15px; letter-spacing: 0.15em; }
+    .creator-name span { color: var(--color-accent-gold); font-size: 0.9em; margin-right: 10px; }
+    .example-questions { margin-top: 25px; }
+    .example-questions h4 { margin-bottom: 10px; font-size: 1.1rem; letter-spacing: 0.1em; }
+    .example-questions ul { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--color-border); }
+    .example-questions li { padding: 15px 0; border-bottom: 1px dashed var(--color-border); }
+    .q-text { font-weight: 700; display: block; margin-bottom: 8px; }
+    .a-text { color: var(--color-accent-gold); font-weight: 700; }
+
+    /* =========================================
+       エントリー
+    ========================================= */
+    .entry-box { text-align: center; }
+    .entry-date { font-size: 1.8rem; font-weight: 700; color: var(--color-accent-gold); letter-spacing: 0.15em; margin-bottom: 10px;}
+    .attention-text { margin-top: 25px; font-weight: bold; border: 1px solid var(--color-accent-red); padding: 15px; display: inline-block; color: var(--color-accent-red); letter-spacing: 0.1em;}
+
+    /* =========================================
+       プライバシーポリシー
+    ========================================= */
+    .policy-content h3 { font-size: 1.1rem; margin-top: 35px; margin-bottom: 10px; border-bottom: 1px dashed var(--color-border); padding-bottom: 5px; letter-spacing: 0.1em; color: var(--color-accent-gold); }
+    .policy-content p { margin-bottom: 15px; }
+
+    /* =========================================
+       フッター
+    ========================================= */
+    .footer { background-color: var(--color-white); color: var(--color-text); padding: 40px 20px; text-align: center; font-size: 0.85rem; border-top: 2px solid var(--color-accent-gold); }
+    .footer p { margin: 5px 0; }
+    .footer-links { margin-top: 25px; display: flex; flex-direction: column; gap: 15px; }
+    .footer-links a { color: var(--color-accent-gold); font-weight: 700; letter-spacing: 0.1em; }
+    .footer-links a:hover { color: var(--color-text); }
+    @media (min-width: 768px) { .footer-links { flex-direction: row; justify-content: center; gap: 40px; } }
+  </style>
+</head>
+<body>
+  <div id="app" v-cloak>
+    
+    <!-- 準備中（パスワード）画面 -->
+    <div v-if="!isAuth" class="auth-screen">
+      <h2>準備中</h2>
+      <p>プレビュー確認用のレビューコードを入力してください。</p>
+      <input type="password" v-model="inputCode" class="auth-input" @keyup.enter="checkCode" placeholder="Code" />
+      <button @click="checkCode" class="auth-btn">確認</button>
+      <p v-if="authError" class="auth-error">コードが違います</p>
+    </div>
+
+    <!-- サイト本体（パスワード認証後） -->
+    <div v-else>
+      <header class="header">
+        <div class="header-inner">
+          <h1 class="header-title"><router-link to="/">MEOTO杯</router-link></h1>
+          <nav class="nav-menu" :class="{ 'is-open': isMenuOpen }">
+            <ul>
+              <li><router-link to="/" @click="closeMenu">TOP</router-link></li>
+              <li><router-link to="/overview" @click="closeMenu">大会概要</router-link></li>
+              <li><router-link to="/rules" @click="closeMenu">大会ルール</router-link></li>
+              <li><router-link to="/creators" @click="closeMenu">作問者紹介</router-link></li>
+              <li><router-link to="/entry" @click="closeMenu">エントリー</router-link></li>
+            </ul>
+          </nav>
+          <button class="hamburger" @click="toggleMenu" :class="{ 'is-active': isMenuOpen }">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <router-view></router-view>
+      </main>
+
+      <footer class="footer">
+        <div>
+          <p>MEOTO杯：2027年1月24日(日) 文京シビックセンター区民会議室</p>
+          <p>リハーサル：2027年1月9日(土) 松島コミュニティ会館</p>
+          <p style="margin-top: 15px; font-size: 0.9em;">詳しくは<router-link to="/overview" style="color: var(--color-accent-gold); text-decoration: underline;">大会概要</router-link>をご覧ください</p>
+          <div class="footer-links">
+            <router-link to="/privacy">プライバシーポリシー</router-link>
+            <a href="https://x.com/QuizMEOTOhai" target="_blank">公式X：@QuizMEOTOhai</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ======= 各ページのテンプレート ======= -->
+  
+  <template id="tmpl-home">
+    <div>
+      <section class="hero" v-fade>
+        <img src="MEOTO_logo_logo_long.svg" alt="MEOTO杯ロゴ" class="hero-logo" />
+      </section>
+      
+      <section class="intro" v-fade>
+        <p>社会人スタートクイズプレーヤーの夫婦二組が、<br class="sp-br">自分たちの出したいものをたくさん詰め込んで<br class="sp-br">クイズ大会をお届けします。</p>
+        <p>クイズを初めて間もないあなたも、<br class="sp-br">腕に覚えがあるあなたも、<br class="sp-br">ふるってご参加ください！</p>
+      </section>
+      
+      <div class="mizuhiki-line" v-fade></div>
+
+      <nav class="btn-group" v-fade>
+        <router-link to="/overview" class="btn">大会概要へ</router-link>
+        <router-link to="/creators" class="btn">作問者紹介へ</router-link>
+        <router-link to="/entry" class="btn">エントリーはこちら</router-link>
+      </nav>
+    </div>
+  </template>
+
+  <template id="tmpl-overview">
+    <div>
+      <h2 class="page-title" v-fade>大会概要</h2>
+      <div class="mizuhiki-line" v-fade></div>
+      
+      <section class="event-section" v-fade>
+        <h3>両日程共通</h3>
+        <dl>
+          <dt>レギュレーション</dt>
+          <dd>なし（夫婦でなくても参加可）</dd>
+          
+          <dt>当日の持ち物</dt>
+          <dd>
+            <ul class="items-list">
+              <li>参加費</li>
+              <li>スマートフォン（敗者復活戦で使用します）</li>
+              <li>モバイルバッテリー</li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+
+      <div class="mizuhiki-line" v-fade></div>
+
+      <section class="event-section" v-fade>
+        <h3>Meoto杯（本大会）</h3>
+        <dl>
+          <dt>開催日</dt><dd>2027年1月24日(日)</dd>
+          <dt>時間</dt><dd>開場：10時 ／ 開始：10時30分 ／ 終了：18時（予定）</dd>
+          <dt>参加費</dt><dd>1,000円（現金・PayPay）</dd>
+          <dt>参加枠</dt><dd>48名</dd>
+          <dt>会場</dt><dd>文京シビックセンター区民会議室（東京都文京区）会議室C</dd>
+          <dt>アクセス</dt><dd>東京メトロ「後楽園駅」「春日駅」徒歩1分<br>JR中央総武線「水道橋駅」徒歩9分</dd>
+        </dl>
+        <p class="note">※本大会の結果は、クイズイベント情報ポータルサイト「一心精進」様に掲載予定です。</p>
+      </section>
+
+      <div class="mizuhiki-line" v-fade></div>
+
+      <section class="event-section" v-fade>
+        <h3>リハーサル</h3>
+        <dl>
+          <dt>開催日</dt><dd>2027年1月9日(土)</dd>
+          <dt>時間</dt><dd>開場：10時 ／ 開始：10時30分 ／ 終了：18時（予定）</dd>
+          <dt>参加費</dt><dd>500円（現金・PayPay）</dd>
+          <dt>参加枠</dt><dd>24名</dd>
+          <dt>会場</dt><dd>松島コミュニティ会館（東京都江戸川区）和室</dd>
+          <dt>アクセス</dt><dd>JR総武線「新小岩駅」南口 徒歩10分</dd>
+        </dl>
+        <p class="note">※本大会と一部内容を変更して実施します。</p>
+      </section>
+    </div>
+  </template>
+
+  <template id="tmpl-rules">
+    <div>
+      <h2 class="page-title" v-fade>大会ルール</h2>
+      <div class="mizuhiki-line" v-fade></div>
+      <div v-fade>
+        <p>（準備中）</p>
+      </div>
+    </div>
+  </template>
+
+  <template id="tmpl-creators">
+    <div>
+      <h2 class="page-title" v-fade>作問者紹介</h2>
+      <div class="mizuhiki-line" v-fade></div>
+      
+      <template v-for="(creator, index) in creators" :key="creator.name">
+        <div class="creator-card" v-fade>
+          <h3 class="creator-name"><span>■</span>{{ creator.name }}</h3>
+          <p>{{ creator.intro }}</p>
+          <div class="example-questions">
+            <h4>例題</h4>
+            <ul>
+              <li v-for="q in creator.questions">
+                <span class="q-text">Q. {{ q.text }}</span>
+                <span class="a-text">A. {{ q.answer }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mizuhiki-line" v-if="index < creators.length - 1" v-fade></div>
+      </template>
+
+    </div>
+  </template>
+
+  <template id="tmpl-entry">
+    <div>
+      <h2 class="page-title" v-fade>エントリー</h2>
+      <div class="mizuhiki-line" v-fade></div>
+      
+      <div class="entry-box" v-fade>
+        <p class="entry-date">11月20日(金) 21:00</p>
+        <p>公式X（<a href="https://x.com/QuizMEOTOhai" target="_blank" style="color: var(--color-accent-red); text-decoration: underline;">@QuizMEOTOhai</a>）にて<br>申込用Googleフォームを公開します。</p>
+        <p class="attention-text">※先着順で受付を行います。</p>
+      </div>
+    </div>
+  </template>
+
+  <template id="tmpl-privacy">
+    <div>
+      <h2 class="page-title" v-fade>プライバシーポリシー</h2>
+      <div class="mizuhiki-line" v-fade></div>
+      
+      <div class="policy-content" v-fade>
+        <p>MEOTO杯運営（以下「当運営」）は、本大会のエントリーおよび運営にあたり、参加者の皆様からお預かりする個人情報の取り扱いについて、以下のとおりプライバシーポリシーを定めます。</p>
+        <h3>1. 個人情報の収集</h3>
+        <p>当運営は、エントリーの際に以下の個人情報を収集いたします。<br>・お名前（本名またはハンドルネーム）<br>・メールアドレス<br>・その他エントリーフォームにてご入力いただいた情報</p>
+        <h3>2. 個人情報の利用目的</h3>
+        <p>お預かりした個人情報は、以下の目的のみに使用し、それ以外の目的では利用いたしません。<br>・大会に関するご案内、お問い合わせへの回答<br>・参加者の管理、大会の円滑な運営<br>・緊急時のご連絡</p>
+        <h3>3. 個人情報の第三者への開示・提供</h3>
+        <p>当運営は、お預かりした個人情報を適切に管理し、次のいずれかに該当する場合を除き、第三者に開示または提供いたしません。<br>・参加者本人の同意がある場合<br>・法令に基づき開示することが必要である場合</p>
+        <h3>4. 個人情報の管理・安全対策</h3>
+        <p>当運営は、個人情報の漏洩、紛失、改ざんを防止するため、適切な安全対策を講じ、厳重に管理いたします。また、大会終了後、一定期間が経過した個人情報は速やかに破棄いたします。</p>
+        <h3>5. ご本人の照会・訂正・削除</h3>
+        <p>参加者ご本人が個人情報の照会・訂正・削除などをご希望される場合には、公式Xアカウント（<a href="https://x.com/QuizMEOTOhai" target="_blank" style="color: var(--color-accent-gold); text-decoration: underline;">@QuizMEOTOhai</a>）のDM等よりご連絡ください。ご本人であることを確認の上、対応させていただきます。</p>
+        <h3>6. プライバシーポリシーの変更</h3>
+        <p>当運営は、保有する個人情報に関して適用される日本の法令、その他規範を遵守するとともに、本ポリシーの内容を適宜見直し、その改善に努めます。</p>
+      </div>
+    </div>
+  </template>
+
+  <!-- ======= Vue.js の処理 ======= -->
+  <script>
+    const { createApp, ref } = Vue;
+    const { createRouter, createWebHashHistory } = VueRouter;
+
+    const creatorsData = [
+      {
+        name: '作問者 1', intro: '自己紹介文をここに記載します。',
+        questions: [ { text: '問題文1が入ります。', answer: '解答1' }, { text: '問題文2が入ります。', answer: '解答2' }, { text: '問題文3が入ります。', answer: '解答3' } ]
+      },
+      {
+        name: '作問者 2', intro: '自己紹介文をここに記載します。',
+        questions: [ { text: '問題文1が入ります。', answer: '解答1' } ]
+      },
+    ];
+
+    const Home = { template: '#tmpl-home' };
+    const Overview = { template: '#tmpl-overview' };
+    const Rules = { template: '#tmpl-rules' };
+    const Creators = { template: '#tmpl-creators', setup() { return { creators: creatorsData }; } };
+    const Entry = { template: '#tmpl-entry' };
+    const Privacy = { template: '#tmpl-privacy' };
+
+    const router = createRouter({
+      history: createWebHashHistory(),
+      routes: [
+        { path: '/', component: Home },
+        { path: '/overview', component: Overview },
+        { path: '/rules', component: Rules },
+        { path: '/creators', component: Creators },
+        { path: '/entry', component: Entry },
+        { path: '/privacy', component: Privacy }
+      ],
+      scrollBehavior() { return { top: 0 }; } 
+    });
+
+    const app = createApp({
+      setup() {
+        const isMenuOpen = ref(false);
+        const toggleMenu = () => isMenuOpen.value = !isMenuOpen.value;
+        const closeMenu = () => isMenuOpen.value = false;
+        
+        const isAuth = ref(false);
+        const inputCode = ref('');
+        const authError = ref(false);
+
+        if (sessionStorage.getItem('meoto_preview_auth') === 'true') {
+          isAuth.value = true;
+        }
+
+        const checkCode = () => {
+          if (inputCode.value === '2358') {
+            isAuth.value = true;
+            authError.value = false;
+            sessionStorage.setItem('meoto_preview_auth', 'true');
+          } else {
+            authError.value = true;
+          }
+        };
+
+        return { isMenuOpen, toggleMenu, closeMenu, isAuth, inputCode, authError, checkCode };
+      }
+    });
+
+    app.directive('fade', {
+      mounted(el) {
+        el.classList.add('v-fade-hidden');
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              el.classList.add('v-fade-visible');
+              obs.unobserve(el);
+            }
+          });
+        }, { threshold: 0.15 });
+        observer.observe(el);
+      }
+    });
+
+    app.use(router);
+    app.mount('#app');
+  </script>
+</body>
+</html>
