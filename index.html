@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEOTO杯 | クイズ大会</title>
+  <title>Meoto杯 | クイズ大会</title>
+  
+  <!-- ★ファビコンの設定 -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -124,11 +127,18 @@
     }
 
     /* =========================================
-       メインコンテンツ・各ページ共通
+       メインコンテンツ・コンテナ設定
     ========================================= */
     .main-content {
-      padding: 50px 20px; max-width: 800px; margin: 0 auto; min-height: 70vh;
+      padding: 50px 20px; min-height: 70vh;
     }
+    .page-container {
+      max-width: 800px; margin: 0 auto;
+    }
+    .rules-container {
+      max-width: 1000px; margin: 0 auto;
+    }
+    
     .page-title { text-align: center; font-size: 1.8rem; color: var(--color-text); margin-bottom: 20px; letter-spacing: 0.2em; }
     .mizuhiki-line { width: 100%; height: 40px; background: url('MEOTO_logo_mizuhiki_line.svg') no-repeat center center; background-size: 100% auto; margin: 20px 0 40px 0; }
 
@@ -157,18 +167,28 @@
     @media (min-width: 768px) { .btn-group { flex-direction: row; justify-content: center; gap: 20px; } .btn { width: 220px; } }
 
     /* =========================================
-       大会概要
+       概要・ルール（共通）
     ========================================= */
     .event-section h3 { margin-top: 0; color: var(--color-text); font-size: 1.3rem; margin-bottom: 20px; letter-spacing: 0.15em; }
-    .event-section h3::before { content: ''; display: inline-block; width: 4px; height: 1em; background: var(--color-accent-gold); margin-right: 10px; vertical-align: -0.1em; }
     
-    /* スマホ表示では縦並び */
+    .event-section h3.no-icon::before { content: ''; display: inline-block; width: 4px; height: 1em; background: var(--color-accent-gold); margin-right: 10px; vertical-align: -0.1em; }
+    
+    .round-icon {
+      display: inline-block; width: 1.2em; height: 1.2em; vertical-align: -0.15em;
+    }
+    .icon-left { margin-right: 2px; }
+    .icon-right { margin-right: 12px; }
+
+    .event-section h4 {
+      font-size: 1.1rem; color: var(--color-text); margin: 30px 0 10px; letter-spacing: 0.1em;
+      border-bottom: 1px dashed var(--color-border); padding-bottom: 5px;
+    }
+    
     dl { margin-bottom: 15px; }
     dt { font-weight: 700; color: var(--color-accent-gold); letter-spacing: 0.1em; margin-top: 15px; margin-bottom: 5px; }
     dt:first-child { margin-top: 0; }
     dd { margin: 0 0 0 10px; }
 
-    /* PC表示では横並び（レギュレーションが改行されないように 150px を確保） */
     @media (min-width: 768px) { 
       dl { display: grid; grid-template-columns: 150px 1fr; gap: 15px 10px; }
       dt { margin: 0; }
@@ -176,27 +196,84 @@
     }
     
     .note { font-size: 0.85rem; color: var(--color-accent-red); margin-top: 15px; }
+    
     .items-list { list-style: none; padding: 0; margin: 0; }
-    .items-list li::before { content: '・'; }
+    .items-list li::before { content: '・'; margin-right: 4px; }
+    .items-list li.no-dot::before { content: none; }
+
+    /* =========================================
+       ルールページ特有のレイアウト（PCで右側に図）
+    ========================================= */
+    .rules-layout {
+      display: flex; flex-direction: column;
+    }
+    .rules-text { order: 1; }
+    .rules-image { order: 2; margin-top: 60px; text-align: center; }
+    .rules-image img { max-width: 100%; height: auto; }
+
+    @media (min-width: 850px) {
+      .rules-layout {
+        flex-direction: row; gap: 50px; align-items: flex-start;
+      }
+      .rules-text { flex: 1; min-width: 0; }
+      .rules-image {
+        width: 320px; 
+        flex-shrink: 0; margin-top: 0;
+        position: sticky; top: 100px;
+      }
+    }
+
+    /* =========================================
+       ルールページ用：テーブルとスートバッジ
+    ========================================= */
+    .table-responsive { width: 100%; overflow-x: auto; margin: 15px 0 25px; }
+    .rule-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    @media (min-width: 768px) { .rule-table { font-size: 0.95rem; } }
+    .rule-table th, .rule-table td {
+      border: 1px solid var(--color-border); padding: 10px; text-align: center; vertical-align: middle;
+      white-space: nowrap; 
+    }
+    .rule-table th { background-color: #fcfcfc; font-weight: 700; color: var(--color-accent-gold); }
+
+    .suit-badge {
+      display: inline-block; border: 1px solid; padding: 1px 6px; margin: 2px 0;
+      border-radius: 3px; background-color: var(--color-white); font-weight: 700;
+      font-family: inherit; line-height: 1.3;
+    }
+    .badge-gold { color: var(--color-accent-gold); border-color: var(--color-accent-gold); }
+    .badge-red { color: var(--color-accent-red); border-color: var(--color-accent-red); }
 
     /* =========================================
        作問者紹介
     ========================================= */
-    .creator-name { font-size: 1.4rem; color: var(--color-text); margin-top: 0; margin-bottom: 15px; letter-spacing: 0.15em; }
-    .creator-name span { color: var(--color-accent-gold); font-size: 0.9em; margin-right: 10px; }
+    .creator-name { display: flex; align-items: center; font-size: 1.4rem; color: var(--color-text); margin-top: 0; margin-bottom: 15px; letter-spacing: 0.15em; }
+    /* ★ アイコンの右側に余白を追加 */
+    .creator-name .round-icon { margin-right: 0.75rem; }
+    
     .example-questions { margin-top: 25px; }
     .example-questions h4 { margin-bottom: 10px; font-size: 1.1rem; letter-spacing: 0.1em; }
     .example-questions ul { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--color-border); }
     .example-questions li { padding: 15px 0; border-bottom: 1px dashed var(--color-border); }
-    .q-text { font-weight: 700; display: block; margin-bottom: 8px; }
-    .a-text { color: var(--color-accent-gold); font-weight: 700; }
+    
+    .example-questions details { width: 100%; }
+    .example-questions summary {
+      cursor: pointer; position: relative; padding-left: 1.5em; outline: none; list-style: none;
+    }
+    .example-questions summary::-webkit-details-marker { display: none; }
+    .example-questions summary::before {
+      content: '▶'; position: absolute; left: 0; top: 0.25em; color: var(--color-accent-gold); font-size: 0.8em; transition: transform 0.2s ease;
+    }
+    .example-questions details[open] summary::before { transform: rotate(90deg); }
+    
+    .q-text { font-weight: 700; display: inline-block; line-height: 1.6; margin: 0; }
+    .a-text { display: block; color: var(--color-accent-gold); font-weight: 700; margin-top: 10px; padding-left: 1.5em; }
 
     /* =========================================
        エントリー
     ========================================= */
     .entry-box { text-align: center; }
     .entry-date { font-size: 1.8rem; font-weight: 700; color: var(--color-accent-gold); letter-spacing: 0.15em; margin-bottom: 10px;}
-    .attention-text { margin-top: 25px; font-weight: bold; border: 1px solid var(--color-accent-red); padding: 15px; display: inline-block; color: var(--color-accent-red); letter-spacing: 0.1em;}
+    .attention-text { margin-top: 25px; font-weight: bold; border: 1px solid var(--color-accent-red); padding: 15px; display: inline-block; color: var(--color-accent-red); letter-spacing: 0.1em; line-height: 1.6;}
 
     /* =========================================
        プライバシーポリシー
@@ -231,7 +308,7 @@
     <div v-else>
       <header class="header">
         <div class="header-inner">
-          <h1 class="header-title"><router-link to="/">MEOTO杯</router-link></h1>
+          <h1 class="header-title"><router-link to="/">Meoto杯</router-link></h1>
           <nav class="nav-menu" :class="{ 'is-open': isMenuOpen }">
             <ul>
               <li><router-link to="/" @click="closeMenu">TOP</router-link></li>
@@ -253,7 +330,7 @@
 
       <footer class="footer">
         <div>
-          <p>MEOTO杯：2027年1月24日(日) 文京シビックセンター区民会議室</p>
+          <p>Meoto杯：2027年1月24日(日) 文京シビックセンター区民会議室</p>
           <p>リハーサル：2027年1月9日(土) 松島コミュニティ会館</p>
           <p style="margin-top: 15px; font-size: 0.9em;">詳しくは<router-link to="/overview" style="color: var(--color-accent-gold); text-decoration: underline;">大会概要</router-link>をご覧ください</p>
           <div class="footer-links">
@@ -268,9 +345,9 @@
   <!-- ======= 各ページのテンプレート ======= -->
   
   <template id="tmpl-home">
-    <div>
+    <div class="page-container">
       <section class="hero" v-fade>
-        <img src="MEOTO_logo_logo_long.svg" alt="MEOTO杯ロゴ" class="hero-logo" />
+        <img src="MEOTO_logo_logo_long.svg" alt="Meoto杯ロゴ" class="hero-logo" />
       </section>
       
       <section class="intro" v-fade>
@@ -289,22 +366,22 @@
   </template>
 
   <template id="tmpl-overview">
-    <div>
+    <div class="page-container">
       <h2 class="page-title" v-fade>大会概要</h2>
       <div class="mizuhiki-line" v-fade></div>
       
       <section class="event-section" v-fade>
-        <h3>両日程共通</h3>
+        <h3 class="no-icon">両日程共通</h3>
         <dl>
           <dt>レギュレーション</dt>
-          <dd>なし（夫婦でなくても参加可）</dd>
+          <dd>なし（個人戦です。夫婦でなくても参加可）</dd>
           
           <dt>当日の持ち物</dt>
           <dd>
             <ul class="items-list">
               <li>参加費</li>
               <li>スマートフォン（敗者復活戦で使用します）</li>
-              <li>モバイルバッテリー</li>
+              <li class="no-dot">（・モバイルバッテリー）</li>
             </ul>
           </dd>
         </dl>
@@ -313,14 +390,20 @@
       <div class="mizuhiki-line" v-fade></div>
 
       <section class="event-section" v-fade>
-        <h3>Meoto杯（本大会）</h3>
+        <h3 class="no-icon">Meoto杯（本大会）</h3>
         <dl>
           <dt>開催日</dt><dd>2027年1月24日(日)</dd>
           <dt>時間</dt><dd>開場：10時 ／ 開始：10時30分 ／ 終了：18時（予定）</dd>
           <dt>参加費</dt><dd>1,000円（現金・PayPay）</dd>
           <dt>参加枠</dt><dd>48名</dd>
-          <dt>会場</dt><dd>文京シビックセンター区民会議室（東京都文京区）会議室C</dd>
-          <dt>アクセス</dt><dd>東京メトロ「後楽園駅」「春日駅」徒歩1分<br>JR中央総武線「水道橋駅」徒歩9分</dd>
+          <dt>会場</dt>
+          <dd>
+            文京シビックセンター区民会議室（東京都文京区）会議室C
+            <div style="margin-top: 10px;">
+              <iframe src="https://maps.google.co.jp/maps?output=embed&q=文京シビックセンター" width="100%" height="220" style="border:0; border-radius: 4px;" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </dd>
+          <dt>アクセス</dt><dd>東京メトロ「後楽園駅」/都営地下鉄「春日駅」徒歩1分<br>JR中央総武線「水道橋駅」徒歩9分</dd>
         </dl>
         <p class="note">※本大会の結果は、クイズイベント情報ポータルサイト「一心精進」様に掲載予定です。</p>
       </section>
@@ -328,13 +411,19 @@
       <div class="mizuhiki-line" v-fade></div>
 
       <section class="event-section" v-fade>
-        <h3>リハーサル</h3>
+        <h3 class="no-icon">リハーサル</h3>
         <dl>
           <dt>開催日</dt><dd>2027年1月9日(土)</dd>
           <dt>時間</dt><dd>開場：10時 ／ 開始：10時30分 ／ 終了：18時（予定）</dd>
           <dt>参加費</dt><dd>500円（現金・PayPay）</dd>
           <dt>参加枠</dt><dd>24名</dd>
-          <dt>会場</dt><dd>松島コミュニティ会館（東京都江戸川区）和室</dd>
+          <dt>会場</dt>
+          <dd>
+            松島コミュニティ会館（東京都江戸川区）和室
+            <div style="margin-top: 10px;">
+              <iframe src="https://maps.google.co.jp/maps?output=embed&q=江戸川区松島コミュニティ会館" width="100%" height="220" style="border:0; border-radius: 4px;" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </dd>
           <dt>アクセス</dt><dd>JR総武線「新小岩駅」南口 徒歩10分</dd>
         </dl>
         <p class="note">※本大会と一部内容を変更して実施します。</p>
@@ -343,30 +432,217 @@
   </template>
 
   <template id="tmpl-rules">
-    <div>
+    <div class="rules-container">
       <h2 class="page-title" v-fade>大会ルール</h2>
       <div class="mizuhiki-line" v-fade></div>
-      <div v-fade>
-        <p>（準備中）</p>
+
+      <div class="rules-layout">
+        
+        <!-- 左側：テキストエリア -->
+        <div class="rules-text">
+          <section class="event-section" v-fade>
+            <h3 class="no-icon">当日の流れ・ルール</h3>
+            <p>受付終了後、参加者は48枚のカード（4種類のスート、1～12を使用）から1枚を引く。カードに書かれたスートを元に予選1st/2ndラウンドの組み分けを行う。</p>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              予選 1st/2ndラウンド
+            </h3>
+            <p style="font-weight: bold;">3⚪︎2× ／ 32問限定 ／ 12名→6名 ／ 押し直しエンドレスチャンス</p>
+            <p>メイン部屋とサブ部屋に分かれて進行する。作問者ごとに8問ずつ合計32問をランダムに出題する。<br>
+            <span class="note">※サドンデスの作問者については、特に明示しない。（サドンデスに関しては以下同様）</span></p>
+
+            <h4>セット終了時の判定</h4>
+            <p>〇が多い順 → ×が少ない順 → 勝敗にかかわる場合：1〇1×サドンデス</p>
+            <ul class="items-list">
+              <li>7位以降の場合：最初に引いたカードの数字が大きい順。</li>
+              <li>数字も同じ場合はエントリーが早い順。</li>
+            </ul>
+
+            <h4>組み分け</h4>
+            <div class="table-responsive">
+              <table class="rule-table">
+                <tr>
+                  <th></th>
+                  <th>メイン部屋</th>
+                  <th>サブ部屋</th>
+                </tr>
+                <tr>
+                  <td><strong>1st-1</strong></td>
+                  <td><span class="suit-badge badge-gold">♠1～12</span></td>
+                  <td><span class="suit-badge badge-red">♡1～12</span></td>
+                </tr>
+                <tr>
+                  <td><strong>1st-2</strong></td>
+                  <td><span class="suit-badge badge-gold">♣1～12</span></td>
+                  <td><span class="suit-badge badge-red">♢1～12</span></td>
+                </tr>
+                <tr>
+                  <td><strong>2nd-1</strong></td>
+                  <td>
+                    <strong>1stの勝者</strong><br>
+                    <span class="suit-badge badge-gold">♠1,3,5位</span><br>
+                    <span class="suit-badge badge-gold">♣2,4,6位</span><br>
+                    <span class="suit-badge badge-red">♡1,3,5位</span><br>
+                    <span class="suit-badge badge-red">♢2,4,6位</span>
+                  </td>
+                  <td>
+                    <strong>1stの敗者</strong><br>
+                    <span class="suit-badge badge-gold">♠7,9,11位</span><br>
+                    <span class="suit-badge badge-gold">♣8,10,12位</span><br>
+                    <span class="suit-badge badge-red">♡7,9,11位</span><br>
+                    <span class="suit-badge badge-red">♢8,10,12位</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>2nd-2</strong></td>
+                  <td>
+                    <strong>1stの勝者</strong><br>
+                    <span class="suit-badge badge-gold">♠2,4,6位</span><br>
+                    <span class="suit-badge badge-gold">♣1,3,5位</span><br>
+                    <span class="suit-badge badge-red">♡2,4,6位</span><br>
+                    <span class="suit-badge badge-red">♢1,3,5位</span>
+                  </td>
+                  <td>
+                    <strong>1stの敗者</strong><br>
+                    <span class="suit-badge badge-gold">♠8,10,12位</span><br>
+                    <span class="suit-badge badge-gold">♣7,9,11位</span><br>
+                    <span class="suit-badge badge-red">♡8,10,12位</span><br>
+                    <span class="suit-badge badge-red">♢7,9,11位</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <h4>勝ち抜けポイント</h4>
+            <ul class="items-list">
+              <li><strong>1stラウンド勝ち抜けの6名</strong><br>1位 6pt → 2位 5pt → 3位 4pt → 4位 3pt → 5位 2pt → 6位 1pt</li>
+              <li><strong>2ndラウンド（メイン部屋）勝ち抜けの6名</strong><br>1位 12pt → 2位 11pt → 3位 10pt → 4位 9pt → 5位 8pt → 6位 7pt</li>
+              <li><strong>2ndラウンド（サブ部屋）勝ち抜けの6名</strong><br>1位 6pt → 2位 5pt → 3位 4pt → 4位 3pt → 5位 2pt → 6位 1pt</li>
+            </ul>
+
+            <p style="margin-top: 25px;">〇予選ラウンド終了後、作問者別ラウンドのルール説明を行う。参加者は説明をもとに、作問者ラウンドの希望選択を行う。第一希望から第四希望まで回答する。</p>
+            <p>各ラウンド出場人数は12名で、コース選択の優先順は以下の通り。</p>
+            <p style="font-weight: bold; color: var(--color-accent-gold);">
+              予選のptが高い順 → 最初に引いたカードの数字が大きい順 → スート順（<span class="suit-badge badge-gold">♠</span>→<span class="suit-badge badge-red">♡</span>→<span class="suit-badge badge-gold">♣</span>→<span class="suit-badge badge-red">♢</span>）
+            </p>
+            <p>〇休憩終了後、各ラウンドの参加者を発表する。</p>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              作問者別ラウンド
+            </h3>
+            <p style="font-weight: bold;">40問限定 ／ 12人→3人 ／ ルールは当日発表</p>
+            <p>白くまコース ／ なかむーコース ／ サノコース ／ こばやしコース の順で実施。</p>
+            <p class="note">※作問者別ラウンドを勝ち抜けた3名×4＝12名はそのまま準決勝へ進出する。</p>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              敗者復活ラウンド
+            </h3>
+            <p style="font-weight: bold;">○○感謝祭風4択クイズ ／ 20問限定 ／ 36名→4名 ／ ルールは当日発表</p>
+            <ul class="items-list">
+              <li>同率4位が複数名いた場合、1〇1×サドンデスを行う。</li>
+              <li>1～3位に同率がいる場合、最初に引いたカードの数字が大きい順 → スート順（<span class="suit-badge badge-gold">♠</span>→<span class="suit-badge badge-red">♡</span>→<span class="suit-badge badge-gold">♣</span>→<span class="suit-badge badge-red">♢</span>）によって順位を決定しておく。4位以降の順位判定は行わない。</li>
+              <li>準決勝進出決定者も参加していいが、特にアドバンテージは設けない。</li>
+            </ul>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              準決勝
+            </h3>
+            <p style="font-weight: bold;">36問限定 ／ シングルチャンス ／ 特殊Byルール ／ 6+2名→2名 ／ 2セット</p>
+            <p>夫婦ごとに18問ずつ合計36問をランダムに出題する。正誤判定が出た時点で、作問者を公表する。3×で回答権をはく奪する。（そこまでに獲得した点は残る）</p>
+
+            <h4>セット終了時の判定</h4>
+            <p>(白くまンち正解数) × (こばやし家正解数) の高い順 → 1〇1×サドンデス</p>
+            <p>上位2名が決勝進出。3位以降の順位決定は行わない。</p>
+
+            <h4>組み分け</h4>
+            <div style="margin: 15px 0 25px;">
+              <table class="rule-table">
+                <tr>
+                  <th style="white-space: nowrap;">セット</th>
+                  <th>参加者</th>
+                </tr>
+                <tr>
+                  <td style="white-space: nowrap;"><strong>1st</strong></td>
+                  <td style="white-space: normal; line-height: 1.6; text-align: left;">白くま1位, 白くま3位, なかむー2位, サノ2位, こばやし1位, こばやし3位, 敗者復活1位, 敗者復活3位</td>
+                </tr>
+                <tr>
+                  <td style="white-space: nowrap;"><strong>2nd</strong></td>
+                  <td style="white-space: normal; line-height: 1.6; text-align: left;">白くま2位, なかむー1位, なかむー3位, サノ1位, サノ3位, こばやし2位, 敗者復活4位, 敗者復活2位</td>
+                </tr>
+              </table>
+            </div>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              決勝
+            </h3>
+            <p style="font-weight: bold;">問題数非公表 ／ 10⚪︎4× ／ シングルチャンス ／ 4→1</p>
+            <p>各作問者の問題をランダムに出題する。</p>
+          </section>
+        </div>
+
+        <!-- 右側（スマホ時は最下部）：画像エリア -->
+        <div class="rules-image" v-fade>
+          <img src="flow_hontaikai.svg" alt="本大会のフロー図" />
+        </div>
+
       </div>
     </div>
   </template>
 
+  <!-- ★ 作問者紹介 テンプレート -->
   <template id="tmpl-creators">
-    <div>
+    <div class="page-container">
       <h2 class="page-title" v-fade>作問者紹介</h2>
       <div class="mizuhiki-line" v-fade></div>
       
       <template v-for="(creator, index) in creators" :key="creator.name">
         <div class="creator-card" v-fade>
-          <h3 class="creator-name"><span>■</span>{{ creator.name }}</h3>
-          <p>{{ creator.intro }}</p>
-          <div class="example-questions">
+          
+          <!-- ★ アイコンの設定（右側の余白を0.75remに適用） -->
+          <h3 class="creator-name">
+            <img :src="creator.icon" alt="" class="round-icon">
+            {{ creator.name }}
+          </h3>
+          <p style="line-height: 1.8;">{{ creator.intro }}</p>
+          
+          <div class="example-questions" v-if="creator.questions && creator.questions.length > 0">
             <h4>例題</h4>
             <ul>
               <li v-for="q in creator.questions">
-                <span class="q-text">Q. {{ q.text }}</span>
-                <span class="a-text">A. {{ q.answer }}</span>
+                <details>
+                  <summary><span class="q-text">Q. {{ q.text }}</span></summary>
+                  <span class="a-text">A. {{ q.answer }}</span>
+                </details>
               </li>
             </ul>
           </div>
@@ -378,25 +654,25 @@
   </template>
 
   <template id="tmpl-entry">
-    <div>
+    <div class="page-container">
       <h2 class="page-title" v-fade>エントリー</h2>
       <div class="mizuhiki-line" v-fade></div>
       
       <div class="entry-box" v-fade>
         <p class="entry-date">11月20日(金) 21:00</p>
         <p>公式X（<a href="https://x.com/QuizMEOTOhai" target="_blank" style="color: var(--color-accent-red); text-decoration: underline;">@QuizMEOTOhai</a>）にて<br>申込用Googleフォームを公開します。</p>
-        <p class="attention-text">※先着順で受付を行います。</p>
+        <p class="attention-text">※先着順で受付を行います。<br>定員を超えた場合、以降のエントリーはキャンセル待ちとして対応させていただきます。</p>
       </div>
     </div>
   </template>
 
   <template id="tmpl-privacy">
-    <div>
+    <div class="page-container">
       <h2 class="page-title" v-fade>プライバシーポリシー</h2>
       <div class="mizuhiki-line" v-fade></div>
       
       <div class="policy-content" v-fade>
-        <p>MEOTO杯運営（以下「当運営」）は、本大会のエントリーおよび運営にあたり、参加者の皆様からお預かりする個人情報の取り扱いについて、以下のとおりプライバシーポリシーを定めます。</p>
+        <p>Meoto杯運営（以下「当運営」）は、本大会のエントリーおよび運営にあたり、参加者の皆様からお預かりする個人情報の取り扱いについて、以下のとおりプライバシーポリシーを定めます。</p>
         <h3>1. 個人情報の収集</h3>
         <p>当運営は、エントリーの際に以下の個人情報を収集いたします。<br>・お名前（本名またはハンドルネーム）<br>・メールアドレス<br>・その他エントリーフォームにてご入力いただいた情報</p>
         <h3>2. 個人情報の利用目的</h3>
@@ -420,13 +696,37 @@
 
     const creatorsData = [
       {
-        name: '作問者 1', intro: '自己紹介文をここに記載します。',
-        questions: [ { text: '問題文1が入ります。', answer: '解答1' }, { text: '問題文2が入ります。', answer: '解答2' }, { text: '問題文3が入ります。', answer: '解答3' } ]
+        name: 'こばやし', 
+        icon: 'MEOTO_logo_icon-wan_red.svg',
+        intro: '数学を教えることで、生計を立てています。ずいぶん長いことピアノを弾いていて、今でもたまにビッグバンドジャズの本番に出たりします。ジャズ以外も聞きますが、私が好きなものはあまりクイズに出ないので、今日はたくさん出そうと思います。電王戦をきっかけに将棋にはまり、10年が経ちました。好きな戦法は真部流です。世の中のお笑いは中高時代にすべて見つくしたので、今のお笑いはほとんど見ません。料理は作るのも食べるのも好きです。ちいかわですか？クイズ大会に出るより先に、映画を見てきてください。',
+        questions: [ 
+          { text: '【二要素回答してください】原作では「24601」であったが、発音しにくいという理由から日本公演では「24653」に変更された、ミュージカル『レ・ミゼラブル』において、この５桁の数字が表すものは何でしょう。', answer: 'ジャン・バルジャンの囚人番号' }, 
+          { text: '1998年12月28日に行われた『男達の別れ』ツアーファイナルがボーカル佐藤が出演した生前最後のライブとなった、代表曲に『ナイトクルージング』や『いかれたbaby』がある日本のロックバンドは何でしょう。', answer: 'フィッシュマンズ' }, 
+          { text: '空気より水の方が熱伝導率が高いため、短時間で行えるというメリットがあるが、冷蔵庫で行うよりもドリップが出やすく味が落ちるというデメリットもある、食材の解凍方法は何でしょう。', answer: '流水解凍' } 
+        ]
       },
       {
-        name: '作問者 2', intro: '自己紹介文をここに記載します。',
-        questions: [ { text: '問題文1が入ります。', answer: '解答1' } ]
+        name: 'サノ', 
+        icon: 'MEOTO_logo_icon-wan_gold.svg',
+        intro: '数学を活かすことで、生計を立てています。ヘルスケア系のデータ利活用に携わっています。数学科卒なので経歴的には理系ですが、小学生時代から三国志にハマっていた影響で歴史が好きです。といっても高校範囲、特に世界史のほとんどはクイズを始めてからのキャッチアップなのでまだまだですが、ヨーロッパ史とかもっとゆっくり学んでみたいなと思っています。長らくスポーツ観戦は野球一本槍でしたが、最近はW杯などの影響もありすっかりサッカーにハマり始めています。今回は好きなものを出しつつも、できるだけ幅広く面白いと思ったものを用意できればなと思っています。',
+        questions: [ 
+          { text: '本来は定義不能だが毎年開幕戦の日には尼崎中央3丁目商店街で阪神タイガースの143が"点灯"している、他チームの結果に関わらず自チームが優勝するために必要な勝利数のことを何というでしょう。', answer: 'マジックナンバー' },
+          { text: '堪忍袋の緒、舌鼓、左うちわなど、よく耳にするがその現物を見たことがないものを扱うカタログの体をなす、2025年本屋大賞の超発掘本！に選ばれたクラフト・エヴィング商會の著書は何でしょう。', answer: '『ないもの、あります』' },
+          { text: '「な」で0.1%、「なぜ」で1%、「なぜや」で99%答えは「ジョージ・マロリー」、と判断するように、新しい情報が得られるたびにある仮説の確率を更新し予測を行う統計学の手法は何でしょう。', answer: 'ベイズ推定' }
+        ]
       },
+      {
+        name: '白くま',
+        icon: 'MEOTO_logo_icon-wan_gold.svg',
+        intro: '（準備中）',
+        questions: []
+      },
+      {
+        name: 'なかむー',
+        icon: 'MEOTO_logo_icon-wan_red.svg',
+        intro: '（準備中）',
+        questions: []
+      }
     ];
 
     const Home = { template: '#tmpl-home' };
