@@ -51,37 +51,6 @@
     [v-cloak] { display: none; }
 
     /* =========================================
-       準備中（レビューコード）画面
-    ========================================= */
-    .auth-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 20px;
-    }
-    .auth-screen h2 { font-size: 2rem; letter-spacing: 0.2em; margin-bottom: 10px; }
-    /* ★ 中央揃えを維持 */
-    .auth-screen p { text-align: center; margin-bottom: 30px; font-size: 0.95rem; color: #666; }
-    .auth-input {
-      padding: 12px; font-size: 1.2rem; text-align: center;
-      border: 1px solid var(--color-border);
-      outline: none; margin-bottom: 20px; letter-spacing: 0.1em;
-      width: 200px;
-    }
-    .auth-input:focus { border-color: var(--color-accent-gold); }
-    .auth-btn {
-      padding: 12px 40px; background: var(--color-white);
-      border: 1px solid var(--color-border); cursor: pointer;
-      font-family: inherit; font-weight: 700; letter-spacing: 0.1em;
-      transition: 0.3s;
-    }
-    .auth-btn:hover { border-color: var(--color-accent-gold); color: var(--color-accent-gold); }
-    .auth-error { color: var(--color-accent-red); margin-top: 15px; font-weight: bold; }
-
-    /* =========================================
        スクロールアニメーション（v-fade用）
     ========================================= */
     .v-fade-hidden {
@@ -308,51 +277,40 @@
 <body>
   <div id="app" v-cloak>
     
-    <!-- 準備中（パスワード）画面 -->
-    <div v-if="!isAuth" class="auth-screen">
-      <h2>準備中</h2>
-      <p>プレビュー確認用のレビューコードを入力してください。</p>
-      <input type="password" v-model="inputCode" class="auth-input" @keyup.enter="checkCode" placeholder="Code" />
-      <button @click="checkCode" class="auth-btn">確認</button>
-      <p v-if="authError" class="auth-error">コードが違います</p>
-    </div>
+    <header class="header">
+      <div class="header-inner">
+        <h1 class="header-title"><router-link to="/">Meoto杯</router-link></h1>
+        <nav class="nav-menu" :class="{ 'is-open': isMenuOpen }">
+          <ul>
+            <li><router-link to="/" @click="closeMenu">TOP</router-link></li>
+            <li><router-link to="/overview" @click="closeMenu">大会概要</router-link></li>
+            <li><router-link to="/rules" @click="closeMenu">大会ルール</router-link></li>
+            <li><router-link to="/creators" @click="closeMenu">作問者紹介</router-link></li>
+            <li><router-link to="/entry" @click="closeMenu">エントリー</router-link></li>
+          </ul>
+        </nav>
+        <button class="hamburger" @click="toggleMenu" :class="{ 'is-active': isMenuOpen }">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
 
-    <!-- サイト本体（パスワード認証後） -->
-    <div v-else>
-      <header class="header">
-        <div class="header-inner">
-          <h1 class="header-title"><router-link to="/">Meoto杯</router-link></h1>
-          <nav class="nav-menu" :class="{ 'is-open': isMenuOpen }">
-            <ul>
-              <li><router-link to="/" @click="closeMenu">TOP</router-link></li>
-              <li><router-link to="/overview" @click="closeMenu">大会概要</router-link></li>
-              <li><router-link to="/rules" @click="closeMenu">大会ルール</router-link></li>
-              <li><router-link to="/creators" @click="closeMenu">作問者紹介</router-link></li>
-              <li><router-link to="/entry" @click="closeMenu">エントリー</router-link></li>
-            </ul>
-          </nav>
-          <button class="hamburger" @click="toggleMenu" :class="{ 'is-active': isMenuOpen }">
-            <span></span><span></span><span></span>
-          </button>
+    <main class="main-content">
+      <router-view></router-view>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <p>Meoto杯：2027年1月24日(日) 文京シビックセンター区民会議室</p>
+        <p>リハーサル：2027年1月9日(土) 松島コミュニティ会館</p>
+        <p style="margin-top: 15px; font-size: 0.9em;">詳しくは<router-link to="/overview" style="color: var(--color-accent-gold); text-decoration: underline;">大会概要</router-link>をご覧ください</p>
+        <div class="footer-links">
+          <router-link to="/privacy">プライバシーポリシー</router-link>
+          <a href="https://x.com/QuizMEOTOhai" target="_blank">公式X：@QuizMEOTOhai</a>
         </div>
-      </header>
+      </div>
+    </footer>
 
-      <main class="main-content">
-        <router-view></router-view>
-      </main>
-
-      <footer class="footer">
-        <div>
-          <p>Meoto杯：2027年1月24日(日) 文京シビックセンター区民会議室</p>
-          <p>リハーサル：2027年1月9日(土) 松島コミュニティ会館</p>
-          <p style="margin-top: 15px; font-size: 0.9em;">詳しくは<router-link to="/overview" style="color: var(--color-accent-gold); text-decoration: underline;">大会概要</router-link>をご覧ください</p>
-          <div class="footer-links">
-            <router-link to="/privacy">プライバシーポリシー</router-link>
-            <a href="https://x.com/QuizMEOTOhai" target="_blank">公式X：@QuizMEOTOhai</a>
-          </div>
-        </div>
-      </footer>
-    </div>
   </div>
 
   <!-- ======= 各ページのテンプレート ======= -->
@@ -365,7 +323,7 @@
       
       <section class="intro" v-fade>
         <p>社会人スタートクイズプレーヤーの夫婦二組が、<br class="sp-br">自分たちの出したいものをたくさん詰め込んで<br class="sp-br">クイズ大会をお届けします。</p>
-        <p>クイズを初めて間もないあなたも、<br class="sp-br">腕に覚えがあるあなたも、<br class="sp-br">ふるってご参加ください！</p>
+        <p>クイズを始めて間もないあなたも、<br class="sp-br">腕に覚えがあるあなたも、<br class="sp-br">ふるってご参加ください！</p>
       </section>
       
       <div class="mizuhiki-line" v-fade></div>
@@ -566,7 +524,7 @@
       {
         name: '白くま',
         icon: 'MEOTO_logo_icon-wan_gold.svg',
-        intro: '学生時代一番好きだった科目は数学です。学生時代は本屋でバイトして、就職して数年は図書館で働いていました。今は時間がないため、全然読書していないですね。命が足りません。\n映画館で映画を観るのが好きです。映画との出会いは1回しか体験できないので、初見の映画はできるだけ映画館で観ることにこだわっています。好きなジャンルは「バディもの」と「胸糞」です。',
+        intro: '学生時代一番好きだった科目は数学です。学生時代は本屋でバイトして、就職して数年は図書館で働いていました。今は時間がないため、全然読書していないですね。命が足りません。\\n映画館で映画を観るのが好きです。映画との出会いは1回しか体験できないので、初見の映画はできるだけ映画館で観ることにこだわっています。好きなジャンルは「バディもの」と「胸糞」です。',
         questions: [
           { text: 'ナチスに傾倒していた少年が、母親がかくまっていたユダヤ人の少女と出会ったことで自らの信念に疑問を持ち、ヒトラーのナショナリズムに向き合っていくという内容のタイカ・ワイティティ監督の映画は何でしょう？', answer: '『ジョジョ・ラビット』' },
           { text: 'アニメ公式ホームページには、各話で摂取した食べ物の総カロリーがまとめられている、『負けヒロインが多すぎる』に登場する食いしん坊 ”負けヒロイン”は誰でしょう？', answer: '八奈見杏菜（やなみ・あんな）' },
@@ -576,7 +534,7 @@
       {
         name: 'なかむー',
         icon: 'MEOTO_logo_icon-wan_red.svg',
-        intro: '３人の数学系の人に囲まれた、美術系専攻のなかむーです。デザインまわりの仕事をしています。かつて白くまと同じ本屋でバイトをしていました。軽めのミステリ、児童文学、軽めの自然科学あたりを通りつつ、漫画とゲームも好きです。最近のお気に入り作品は「プロジェクト・ヘイル・メアリー」。東北からの上京組。注）この大会では諸事情により鳥の問題はでません。ご留意ください。\nせっかくなので自分のコーナーではビジュアル問題を多めに用意したいと思っています。',
+        intro: '３人の数学系の人に囲まれた、美術系専攻のなかむーです。デザインまわりの仕事をしています。かつて白くまと同じ本屋でバイトをしていました。軽めのミステリ、児童文学、軽めの自然科学あたりを通りつつ、漫画とゲームも好きです。最近のお気に入り作品は「プロジェクト・ヘイル・メアリー」。東北からの上京組。注）この大会では諸事情により鳥の問題はでません。ご留意ください。\\nせっかくなので自分のコーナーではビジュアル問題を多めに用意したいと思っています。',
         questions: [
           { text: '参加者がそれぞれ手料理や飲み物を持ち寄り、みんなで分けて楽しむ形式のパーティーのことを、「鍋」と「幸運」を意味する英語を組み合わせて何と言うでしょう？', answer: 'ポットラックパーティー' },
           { text: '現在は保存のため実物は立ち入り禁止となっているものの、1983年公開の「2」や移動式の「3」、最新の「4」などのレプリカ施設が観光客に人気である、1940年にフランスで発見された旧石器時代の洞窟壁画は何でしょう？', answer: 'ラスコー洞窟壁画' },
@@ -611,25 +569,7 @@
         const toggleMenu = () => isMenuOpen.value = !isMenuOpen.value;
         const closeMenu = () => isMenuOpen.value = false;
         
-        const isAuth = ref(false);
-        const inputCode = ref('');
-        const authError = ref(false);
-
-        if (sessionStorage.getItem('meoto_preview_auth') === 'true') {
-          isAuth.value = true;
-        }
-
-        const checkCode = () => {
-          if (inputCode.value === '2358') {
-            isAuth.value = true;
-            authError.value = false;
-            sessionStorage.setItem('meoto_preview_auth', 'true');
-          } else {
-            authError.value = true;
-          }
-        };
-
-        return { isMenuOpen, toggleMenu, closeMenu, isAuth, inputCode, authError, checkCode };
+        return { isMenuOpen, toggleMenu, closeMenu };
       }
     });
 
