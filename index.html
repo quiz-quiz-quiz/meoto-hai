@@ -37,6 +37,13 @@
       letter-spacing: 0.05em;
       overflow-x: hidden; 
     }
+    
+    /* ★ 段落の均等割付（右端を揃える） */
+    p {
+      text-align: justify;
+      text-justify: inter-ideograph;
+    }
+
     a { color: inherit; text-decoration: none; transition: 0.2s; }
     h1, h2, h3, h4, h5, h6 { font-weight: 500; }
     
@@ -56,7 +63,8 @@
       padding: 20px;
     }
     .auth-screen h2 { font-size: 2rem; letter-spacing: 0.2em; margin-bottom: 10px; }
-    .auth-screen p { margin-bottom: 30px; font-size: 0.95rem; color: #666; }
+    /* ★ 中央揃えを維持 */
+    .auth-screen p { text-align: center; margin-bottom: 30px; font-size: 0.95rem; color: #666; }
     .auth-input {
       padding: 12px; font-size: 1.2rem; text-align: center;
       border: 1px solid var(--color-border);
@@ -152,6 +160,8 @@
     .hero-logo { width: 100%; height: 7rem; object-fit: cover; display: block; }
     @media (min-width: 768px) { .hero-logo { height: auto; object-fit: initial; } }
     .intro { text-align: center; }
+    /* ★ 中央揃えを維持 */
+    .intro p { text-align: center; }
 
     .btn-group { display: flex; flex-direction: column; gap: 15px; margin-top: 20px;}
     .btn {
@@ -247,7 +257,6 @@
        作問者紹介
     ========================================= */
     .creator-name { display: flex; align-items: center; font-size: 1.4rem; color: var(--color-text); margin-top: 0; margin-bottom: 15px; letter-spacing: 0.15em; }
-    /* ★ アイコンの右側に余白を追加 */
     .creator-name .round-icon { margin-right: 0.75rem; }
     
     .example-questions { margin-top: 25px; }
@@ -265,13 +274,16 @@
     }
     .example-questions details[open] summary::before { transform: rotate(90deg); }
     
-    .q-text { font-weight: 700; display: inline-block; line-height: 1.6; margin: 0; }
+    /* ★ 例題の問題文も均等割付 */
+    .q-text { font-weight: 700; display: inline-block; line-height: 1.6; margin: 0; text-align: justify; text-justify: inter-ideograph; }
     .a-text { display: block; color: var(--color-accent-gold); font-weight: 700; margin-top: 10px; padding-left: 1.5em; }
 
     /* =========================================
        エントリー
     ========================================= */
     .entry-box { text-align: center; }
+    /* ★ 中央揃えを維持 */
+    .entry-box p { text-align: center; }
     .entry-date { font-size: 1.8rem; font-weight: 700; color: var(--color-accent-gold); letter-spacing: 0.15em; margin-bottom: 10px;}
     .attention-text { margin-top: 25px; font-weight: bold; border: 1px solid var(--color-accent-red); padding: 15px; display: inline-block; color: var(--color-accent-red); letter-spacing: 0.1em; line-height: 1.6;}
 
@@ -285,7 +297,8 @@
        フッター
     ========================================= */
     .footer { background-color: var(--color-white); color: var(--color-text); padding: 40px 20px; text-align: center; font-size: 0.85rem; border-top: 2px solid var(--color-accent-gold); }
-    .footer p { margin: 5px 0; }
+    /* ★ 中央揃えを維持 */
+    .footer p { text-align: center; margin: 5px 0; }
     .footer-links { margin-top: 25px; display: flex; flex-direction: column; gap: 15px; }
     .footer-links a { color: var(--color-accent-gold); font-weight: 700; letter-spacing: 0.1em; }
     .footer-links a:hover { color: var(--color-text); }
@@ -442,177 +455,12 @@
         <div class="rules-text">
           <section class="event-section" v-fade>
             <h3 class="no-icon">当日の流れ・ルール</h3>
-            <p>受付終了後、参加者は48枚のカード（4種類のスート、1～12を使用）から1枚を引く。カードに書かれたスートを元に予選1st/2ndラウンドの組み分けを行う。</p>
-          </section>
-
-          <div class="mizuhiki-line" v-fade></div>
-
-          <section class="event-section" v-fade>
-            <h3>
-              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
-              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
-              予選 1st/2ndラウンド
-            </h3>
-            <p style="font-weight: bold;">3⚪︎2× ／ 32問限定 ／ 12名→6名 ／ 押し直しエンドレスチャンス</p>
-            <p>メイン部屋とサブ部屋に分かれて進行する。作問者ごとに8問ずつ合計32問をランダムに出題する。<br>
-            <span class="note">※サドンデスの作問者については、特に明示しない。（サドンデスに関しては以下同様）</span></p>
-
-            <h4>セット終了時の判定</h4>
-            <p>〇が多い順 → ×が少ない順 → 勝敗にかかわる場合：1〇1×サドンデス</p>
-            <ul class="items-list">
-              <li>7位以降の場合：最初に引いたカードの数字が大きい順。</li>
-              <li>数字も同じ場合はエントリーが早い順。</li>
-            </ul>
-
-            <h4>組み分け</h4>
-            <div class="table-responsive">
-              <table class="rule-table">
-                <tr>
-                  <th></th>
-                  <th>メイン部屋</th>
-                  <th>サブ部屋</th>
-                </tr>
-                <tr>
-                  <td><strong>1st-1</strong></td>
-                  <td><span class="suit-badge badge-gold">♠1～12</span></td>
-                  <td><span class="suit-badge badge-red">♡1～12</span></td>
-                </tr>
-                <tr>
-                  <td><strong>1st-2</strong></td>
-                  <td><span class="suit-badge badge-gold">♣1～12</span></td>
-                  <td><span class="suit-badge badge-red">♢1～12</span></td>
-                </tr>
-                <tr>
-                  <td><strong>2nd-1</strong></td>
-                  <td>
-                    <strong>1stの勝者</strong><br>
-                    <span class="suit-badge badge-gold">♠1,3,5位</span><br>
-                    <span class="suit-badge badge-gold">♣2,4,6位</span><br>
-                    <span class="suit-badge badge-red">♡1,3,5位</span><br>
-                    <span class="suit-badge badge-red">♢2,4,6位</span>
-                  </td>
-                  <td>
-                    <strong>1stの敗者</strong><br>
-                    <span class="suit-badge badge-gold">♠7,9,11位</span><br>
-                    <span class="suit-badge badge-gold">♣8,10,12位</span><br>
-                    <span class="suit-badge badge-red">♡7,9,11位</span><br>
-                    <span class="suit-badge badge-red">♢8,10,12位</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>2nd-2</strong></td>
-                  <td>
-                    <strong>1stの勝者</strong><br>
-                    <span class="suit-badge badge-gold">♠2,4,6位</span><br>
-                    <span class="suit-badge badge-gold">♣1,3,5位</span><br>
-                    <span class="suit-badge badge-red">♡2,4,6位</span><br>
-                    <span class="suit-badge badge-red">♢1,3,5位</span>
-                  </td>
-                  <td>
-                    <strong>1stの敗者</strong><br>
-                    <span class="suit-badge badge-gold">♠8,10,12位</span><br>
-                    <span class="suit-badge badge-gold">♣7,9,11位</span><br>
-                    <span class="suit-badge badge-red">♡8,10,12位</span><br>
-                    <span class="suit-badge badge-red">♢7,9,11位</span>
-                  </td>
-                </tr>
-              </table>
-            </div>
-
-            <h4>勝ち抜けポイント</h4>
-            <ul class="items-list">
-              <li><strong>1stラウンド勝ち抜けの6名</strong><br>1位 6pt → 2位 5pt → 3位 4pt → 4位 3pt → 5位 2pt → 6位 1pt</li>
-              <li><strong>2ndラウンド（メイン部屋）勝ち抜けの6名</strong><br>1位 12pt → 2位 11pt → 3位 10pt → 4位 9pt → 5位 8pt → 6位 7pt</li>
-              <li><strong>2ndラウンド（サブ部屋）勝ち抜けの6名</strong><br>1位 6pt → 2位 5pt → 3位 4pt → 4位 3pt → 5位 2pt → 6位 1pt</li>
-            </ul>
-
-            <p style="margin-top: 25px;">〇予選ラウンド終了後、作問者別ラウンドのルール説明を行う。参加者は説明をもとに、作問者ラウンドの希望選択を行う。第一希望から第四希望まで回答する。</p>
-            <p>各ラウンド出場人数は12名で、コース選択の優先順は以下の通り。</p>
-            <p style="font-weight: bold; color: var(--color-accent-gold);">
-              予選のptが高い順 → 最初に引いたカードの数字が大きい順 → スート順（<span class="suit-badge badge-gold">♠</span>→<span class="suit-badge badge-red">♡</span>→<span class="suit-badge badge-gold">♣</span>→<span class="suit-badge badge-red">♢</span>）
-            </p>
-            <p>〇休憩終了後、各ラウンドの参加者を発表する。</p>
-          </section>
-
-          <div class="mizuhiki-line" v-fade></div>
-
-          <section class="event-section" v-fade>
-            <h3>
-              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
-              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
-              作問者別ラウンド
-            </h3>
-            <p style="font-weight: bold;">40問限定 ／ 12人→3人 ／ ルールは当日発表</p>
-            <p>白くまコース ／ なかむーコース ／ サノコース ／ こばやしコース の順で実施。</p>
-            <p class="note">※作問者別ラウンドを勝ち抜けた3名×4＝12名はそのまま準決勝へ進出する。</p>
-          </section>
-
-          <div class="mizuhiki-line" v-fade></div>
-
-          <section class="event-section" v-fade>
-            <h3>
-              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
-              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
-              敗者復活ラウンド
-            </h3>
-            <p style="font-weight: bold;">○○感謝祭風4択クイズ ／ 20問限定 ／ 36名→4名 ／ ルールは当日発表</p>
-            <ul class="items-list">
-              <li>同率4位が複数名いた場合、1〇1×サドンデスを行う。</li>
-              <li>1～3位に同率がいる場合、最初に引いたカードの数字が大きい順 → スート順（<span class="suit-badge badge-gold">♠</span>→<span class="suit-badge badge-red">♡</span>→<span class="suit-badge badge-gold">♣</span>→<span class="suit-badge badge-red">♢</span>）によって順位を決定しておく。4位以降の順位判定は行わない。</li>
-              <li>準決勝進出決定者も参加していいが、特にアドバンテージは設けない。</li>
-            </ul>
-          </section>
-
-          <div class="mizuhiki-line" v-fade></div>
-
-          <section class="event-section" v-fade>
-            <h3>
-              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
-              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
-              準決勝
-            </h3>
-            <p style="font-weight: bold;">36問限定 ／ シングルチャンス ／ 特殊Byルール ／ 6+2名→2名 ／ 2セット</p>
-            <p>夫婦ごとに18問ずつ合計36問をランダムに出題する。正誤判定が出た時点で、作問者を公表する。3×で回答権をはく奪する。（そこまでに獲得した点は残る）</p>
-
-            <h4>セット終了時の判定</h4>
-            <p>(白くまンち正解数) × (こばやし家正解数) の高い順 → 1〇1×サドンデス</p>
-            <p>上位2名が決勝進出。3位以降の順位決定は行わない。</p>
-
-            <h4>組み分け</h4>
-            <div style="margin: 15px 0 25px;">
-              <table class="rule-table">
-                <tr>
-                  <th style="white-space: nowrap;">セット</th>
-                  <th>参加者</th>
-                </tr>
-                <tr>
-                  <td style="white-space: nowrap;"><strong>1st</strong></td>
-                  <td style="white-space: normal; line-height: 1.6; text-align: left;">白くま1位, 白くま3位, なかむー2位, サノ2位, こばやし1位, こばやし3位, 敗者復活1位, 敗者復活3位</td>
-                </tr>
-                <tr>
-                  <td style="white-space: nowrap;"><strong>2nd</strong></td>
-                  <td style="white-space: normal; line-height: 1.6; text-align: left;">白くま2位, なかむー1位, なかむー3位, サノ1位, サノ3位, こばやし2位, 敗者復活4位, 敗者復活2位</td>
-                </tr>
-              </table>
-            </div>
-          </section>
-
-          <div class="mizuhiki-line" v-fade></div>
-
-          <section class="event-section" v-fade>
-            <h3>
-              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
-              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
-              決勝
-            </h3>
-            <p style="font-weight: bold;">問題数非公表 ／ 10⚪︎4× ／ シングルチャンス ／ 4→1</p>
-            <p>各作問者の問題をランダムに出題する。</p>
+            <p>（準備中）</p>
           </section>
         </div>
 
-        <!-- 右側（スマホ時は最下部）：画像エリア -->
+        <!-- 右側：画像エリア（準備中） -->
         <div class="rules-image" v-fade>
-          <img src="flow_hontaikai.svg" alt="本大会のフロー図" />
         </div>
 
       </div>
@@ -628,12 +476,12 @@
       <template v-for="(creator, index) in creators" :key="creator.name">
         <div class="creator-card" v-fade>
           
-          <!-- ★ アイコンの設定（右側の余白を0.75remに適用） -->
           <h3 class="creator-name">
             <img :src="creator.icon" alt="" class="round-icon">
             {{ creator.name }}
           </h3>
-          <p style="line-height: 1.8;">{{ creator.intro }}</p>
+          <!-- ★ ここの文章も自動的に pタグ なので均等割付が適用されます -->
+          <p style="line-height: 1.8; white-space: pre-wrap;">{{ creator.intro }}</p>
           
           <div class="example-questions" v-if="creator.questions && creator.questions.length > 0">
             <h4>例題</h4>
@@ -700,9 +548,9 @@
         icon: 'MEOTO_logo_icon-wan_red.svg',
         intro: '数学を教えることで、生計を立てています。ずいぶん長いことピアノを弾いていて、今でもたまにビッグバンドジャズの本番に出たりします。ジャズ以外も聞きますが、私が好きなものはあまりクイズに出ないので、今日はたくさん出そうと思います。電王戦をきっかけに将棋にはまり、10年が経ちました。好きな戦法は真部流です。世の中のお笑いは中高時代にすべて見つくしたので、今のお笑いはほとんど見ません。料理は作るのも食べるのも好きです。ちいかわですか？クイズ大会に出るより先に、映画を見てきてください。',
         questions: [ 
-          { text: '【二要素回答してください】原作では「24601」であったが、発音しにくいという理由から日本公演では「24653」に変更された、ミュージカル『レ・ミゼラブル』において、この５桁の数字が表すものは何でしょう。', answer: 'ジャン・バルジャンの囚人番号' }, 
-          { text: '1998年12月28日に行われた『男達の別れ』ツアーファイナルがボーカル佐藤が出演した生前最後のライブとなった、代表曲に『ナイトクルージング』や『いかれたbaby』がある日本のロックバンドは何でしょう。', answer: 'フィッシュマンズ' }, 
-          { text: '空気より水の方が熱伝導率が高いため、短時間で行えるというメリットがあるが、冷蔵庫で行うよりもドリップが出やすく味が落ちるというデメリットもある、食材の解凍方法は何でしょう。', answer: '流水解凍' } 
+          { text: '【二要素回答してください】原作では「24601」であったが、発音しにくいという理由から日本公演では「24653」に変更された、ミュージカル『レ・ミゼラブル』において、この５桁の数字が表すものは何でしょう?', answer: 'ジャン・バルジャンの囚人番号' }, 
+          { text: '1998年12月28日に行われた『男達の別れ』ツアーファイナルがボーカル佐藤が出演した生前最後のライブとなった、代表曲に『ナイトクルージング』や『いかれたbaby』がある日本のロックバンドは何でしょう?', answer: 'フィッシュマンズ' }, 
+          { text: '空気より水の方が熱伝導率が高いため、短時間で行えるというメリットがあるが、冷蔵庫で行うよりもドリップが出やすく味が落ちるというデメリットもある、食材の解凍方法は何でしょう?', answer: '流水解凍' } 
         ]
       },
       {
@@ -710,22 +558,30 @@
         icon: 'MEOTO_logo_icon-wan_gold.svg',
         intro: '数学を活かすことで、生計を立てています。ヘルスケア系のデータ利活用に携わっています。数学科卒なので経歴的には理系ですが、小学生時代から三国志にハマっていた影響で歴史が好きです。といっても高校範囲、特に世界史のほとんどはクイズを始めてからのキャッチアップなのでまだまだですが、ヨーロッパ史とかもっとゆっくり学んでみたいなと思っています。長らくスポーツ観戦は野球一本槍でしたが、最近はW杯などの影響もありすっかりサッカーにハマり始めています。今回は好きなものを出しつつも、できるだけ幅広く面白いと思ったものを用意できればなと思っています。',
         questions: [ 
-          { text: '本来は定義不能だが毎年開幕戦の日には尼崎中央3丁目商店街で阪神タイガースの143が"点灯"している、他チームの結果に関わらず自チームが優勝するために必要な勝利数のことを何というでしょう。', answer: 'マジックナンバー' },
-          { text: '堪忍袋の緒、舌鼓、左うちわなど、よく耳にするがその現物を見たことがないものを扱うカタログの体をなす、2025年本屋大賞の超発掘本！に選ばれたクラフト・エヴィング商會の著書は何でしょう。', answer: '『ないもの、あります』' },
-          { text: '「な」で0.1%、「なぜ」で1%、「なぜや」で99%答えは「ジョージ・マロリー」、と判断するように、新しい情報が得られるたびにある仮説の確率を更新し予測を行う統計学の手法は何でしょう。', answer: 'ベイズ推定' }
+          { text: '本来は定義不能だが毎年開幕戦の日には尼崎中央3丁目商店街で阪神タイガースの143が"点灯"している、他チームの結果に関わらず自チームが優勝するために必要な勝利数のことを何というでしょう?', answer: 'マジックナンバー' },
+          { text: '堪忍袋の緒、舌鼓、左うちわなど、よく耳にするがその現物を見たことがないものを扱うカタログの体をなす、2025年本屋大賞の超発掘本！に選ばれたクラフト・エヴィング商會の著書は何でしょう?', answer: '『ないもの、あります』' },
+          { text: '「な」で0.1%、「なぜ」で1%、「なぜや」で99%答えは「ジョージ・マロリー」、と判断するように、新しい情報が得られるたびにある仮説の確率を更新し予測を行う統計学の手法は何でしょう?', answer: 'ベイズ推定' }
         ]
       },
       {
         name: '白くま',
         icon: 'MEOTO_logo_icon-wan_gold.svg',
-        intro: '（準備中）',
-        questions: []
+        intro: '学生時代一番好きだった科目は数学です。学生時代は本屋でバイトして、就職して数年は図書館で働いていました。今は時間がないため、全然読書していないですね。命が足りません。\n映画館で映画を観るのが好きです。映画との出会いは1回しか体験できないので、初見の映画はできるだけ映画館で観ることにこだわっています。好きなジャンルは「バディもの」と「胸糞」です。',
+        questions: [
+          { text: 'ナチスに傾倒していた少年が、母親がかくまっていたユダヤ人の少女と出会ったことで自らの信念に疑問を持ち、ヒトラーのナショナリズムに向き合っていくという内容のタイカ・ワイティティ監督の映画は何でしょう？', answer: '『ジョジョ・ラビット』' },
+          { text: 'アニメ公式ホームページには、各話で摂取した食べ物の総カロリーがまとめられている、『負けヒロインが多すぎる』に登場する食いしん坊 ”負けヒロイン”は誰でしょう？', answer: '八奈見杏菜（やなみ・あんな）' },
+          { text: '28の正の約数の総和はいくつでしょう？', answer: '56' }
+        ]
       },
       {
         name: 'なかむー',
         icon: 'MEOTO_logo_icon-wan_red.svg',
-        intro: '（準備中）',
-        questions: []
+        intro: '３人の数学系の人に囲まれた、美術系専攻のなかむーです。デザインまわりの仕事をしています。かつて白くまと同じ本屋でバイトをしていました。軽めのミステリ、児童文学、軽めの自然科学あたりを通りつつ、漫画とゲームも好きです。最近のお気に入り作品は「プロジェクト・ヘイル・メアリー」。東北からの上京組。注）この大会では諸事情により鳥の問題はでません。ご留意ください。\nせっかくなので自分のコーナーではビジュアル問題を多めに用意したいと思っています。',
+        questions: [
+          { text: '参加者がそれぞれ手料理や飲み物を持ち寄り、みんなで分けて楽しむ形式のパーティーのことを、「鍋」と「幸運」を意味する英語を組み合わせて何と言うでしょう？', answer: 'ポットラックパーティー' },
+          { text: '現在は保存のため実物は立ち入り禁止となっているものの、1983年公開の「2」や移動式の「3」、最新の「4」などのレプリカ施設が観光客に人気である、1940年にフランスで発見された旧石器時代の洞窟壁画は何でしょう？', answer: 'ラスコー洞窟壁画' },
+          { text: '2026年8月に打ち上げられた、ハッブル宇宙望遠鏡、ジェイムズ・ウェッブ宇宙望遠鏡に続く、次世代の宇宙望遠鏡は何でしょう？', answer: '（ナンシー・グレース・）ローマン宇宙望遠鏡' }
+        ]
       }
     ];
 
