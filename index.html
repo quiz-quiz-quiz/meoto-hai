@@ -413,12 +413,175 @@
         <div class="rules-text">
           <section class="event-section" v-fade>
             <h3 class="no-icon">当日の流れ・ルール</h3>
-            <p>（準備中）</p>
+            <p>受付時に48枚のカード（4種類のスート、1～12を使用）から1枚を引く。引いたカードは1st/2ndラウンドの組み合わせと、作問者別ラウンドのコース選択に使用される。</p>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              1st/2ndラウンド(各ラウンド12名×4セット)
+            </h3>
+            <p style="font-weight: bold;">4⚪︎3× ／ 40問限定 ／ パスありエンドレスチャンス</p>
+            <p>作問者ごとに10問、合計40問をランダムに出題する。</p>
+            <p>1着でボタンがついた場合は5カウント以内に解答し、2着目以降は3カウント以内に解答する。なお、2着目以降はパスを選択することができる。その場合、当該問題は解答権を失うが、×はつかない。その後、問題の続きが読まれて、再びボタンが付いた際は上記の扱いと同様に判定する。(1着は5カウント、2着目以降は3カウントでパスあり)</p>
+            <p>3×すると解答権剝奪となる。（〇は残る）</p>
+
+            <h4>セット終了時の判定</h4>
+            <p>勝ち抜けの早さ → 〇が多い順 → ×が少ない順 → 同率の場合、点数を按分<br>
+            <span class="note">（ただし、組み分けのための順位は、カードの数字が小さい順 → スートが<span class="suit-badge badge-gold">♠</span>→<span class="suit-badge badge-red">♡</span>→<span class="suit-badge badge-gold">♣</span>→<span class="suit-badge badge-red">♢</span>の順で決定する）</span></p>
+
+            <h4>組み分け</h4>
+            <div class="table-responsive">
+              <table class="rule-table">
+                <tr>
+                  <th></th>
+                  <th>メイン部屋</th>
+                  <th>サブ部屋</th>
+                </tr>
+                <tr>
+                  <td><strong>1st-1</strong></td>
+                  <td><span class="suit-badge badge-gold">♠1～12</span></td>
+                  <td><span class="suit-badge badge-red">♡1～12</span></td>
+                </tr>
+                <tr>
+                  <td><strong>1st-2</strong></td>
+                  <td><span class="suit-badge badge-gold">♣1～12</span></td>
+                  <td><span class="suit-badge badge-red">♢1～12</span></td>
+                </tr>
+                <tr>
+                  <td><strong>2nd-1</strong></td>
+                  <td>
+                    <strong>1stの上位</strong><br>
+                    <span class="suit-badge badge-gold">♠1,3,5位</span><br>
+                    <span class="suit-badge badge-gold">♣2,4,6位</span><br>
+                    <span class="suit-badge badge-red">♡1,3,5位</span><br>
+                    <span class="suit-badge badge-red">♢2,4,6位</span>
+                  </td>
+                  <td>
+                    <strong>1stの下位</strong><br>
+                    <span class="suit-badge badge-gold">♠7,9,11位</span><br>
+                    <span class="suit-badge badge-gold">♣8,10,12位</span><br>
+                    <span class="suit-badge badge-red">♡7,9,11位</span><br>
+                    <span class="suit-badge badge-red">♢8,10,12位</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>2nd-2</strong></td>
+                  <td>
+                    <strong>1stの上位</strong><br>
+                    <span class="suit-badge badge-gold">♠2,4,6位</span><br>
+                    <span class="suit-badge badge-gold">♣1,3,5位</span><br>
+                    <span class="suit-badge badge-red">♡2,4,6位</span><br>
+                    <span class="suit-badge badge-red">♢1,3,5位</span>
+                  </td>
+                  <td>
+                    <strong>1stの下位</strong><br>
+                    <span class="suit-badge badge-gold">♠8,10,12位</span><br>
+                    <span class="suit-badge badge-gold">♣7,9,11位</span><br>
+                    <span class="suit-badge badge-red">♡8,10,12位</span><br>
+                    <span class="suit-badge badge-red">♢7,9,11位</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <h4>1st/2ndラウンドの配点</h4>
+            <ul class="items-list">
+              <li class="no-dot">1位 40pt ／ 2位 37pt ／ 3位 34pt ／ 4位 31pt ／ 5位 28pt ／ 6位 25pt</li>
+              <li class="no-dot">7位 16pt ／ 8位 13pt ／ 9位 10pt ／ 10位 7pt ／ 11位 4pt ／ 12位 1pt</li>
+            </ul>
+
+            <p style="margin-top: 25px;">〇2ndラウンド終了後、3rdラウンドのルール説明を行う。<br>
+            参加者は説明をもとに、どのコースに参加したいか、第一希望から第四希望まで回答する。<br>
+            各コース出場人数は12名。コース選択の優先順は、受付時に引いたカードをもとに抽選で決定する。</p>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              3rdラウンド(各コース12名参加)
+            </h3>
+            <p style="font-weight: bold;">作問者別40問限定 ／ ルールは当日発表<span style="font-size: 0.85em; font-weight: normal; margin-left: 10px;">（ただし、なかむーコースのみ問題数非公表）</span></p>
+            <p>こばやしコース ／ サノコース ／ 白くまコース ／ なかむーコース の順で実施</p>
+
+            <h4>3rdラウンドの配点</h4>
+            <ul class="items-list">
+              <li class="no-dot">1位 60pt ／ 2位 55pt ／ 3位 50pt ／ 4位 45pt ／ 5位 40pt ／ 6位 35pt</li>
+              <li class="no-dot">7位 26pt ／ 8位 21pt ／ 9位 16pt ／ 10位 11pt ／ 11位 6pt ／ 12位 1pt</li>
+            </ul>
+            
+            <p style="margin-top: 25px;">〇1st, 2nd, 3rdラウンドの合計点が高い順に10名が準決勝に進出。同率10位が複数名いた場合、3rdラウンド上位者が準決勝へ進む。順位が同じ場合は2〇1×サドンデスを行う。残り38名は敗者復活ラウンドに回る。</p>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              敗者復活ラウンド
+            </h3>
+            <p style="font-weight: bold;">38名→2名 ／ ルールは当日発表</p>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              準決勝
+            </h3>
+            <p style="font-weight: bold;">36問限定 ／ シングルチャンス ／ 特殊Byルール ／ （6名→2名×2セット）</p>
+            <p>夫婦ごとに18問、合計36問をランダムに出題する。正誤判定が出た時点で作問者を発表する。</p>
+            <p>3×すると解答権剝奪となる。（〇は残る）</p>
+
+            <h4>セット終了時の判定</h4>
+            <p>(白くまンち正解数+1) × (こばやし家正解数+1) の高い順 → ×が少ない順 → 同率の場合、2〇1×サドンデス</p>
+
+            <h4>組み分け</h4>
+            <div style="margin: 15px 0 25px;">
+              <table class="rule-table">
+                <tr>
+                  <th style="white-space: nowrap;">セット</th>
+                  <th>参加者</th>
+                </tr>
+                <tr>
+                  <td style="white-space: nowrap;"><strong>1組目</strong></td>
+                  <td style="white-space: normal; line-height: 1.6; text-align: left;">pt 1位, pt 4位, pt 5位, pt 8位, pt 9位, 敗者復活 2位</td>
+                </tr>
+                <tr>
+                  <td style="white-space: nowrap;"><strong>2組目</strong></td>
+                  <td style="white-space: normal; line-height: 1.6; text-align: left;">pt 2位, pt 3位, pt 6位, pt 7位, pt 10位, 敗者復活 1位</td>
+                </tr>
+              </table>
+            </div>
+
+            <p>〇上位2名ずつ合計4名が決勝進出。3位以降の順位決定は行わない。</p>
+          </section>
+
+          <div class="mizuhiki-line" v-fade></div>
+
+          <section class="event-section" v-fade>
+            <h3>
+              <img src="MEOTO_logo_icon-wan_gold.svg" alt="" class="round-icon icon-left">
+              <img src="MEOTO_logo_icon-wan_red.svg" alt="" class="round-icon icon-right">
+              決勝
+            </h3>
+            <p style="font-weight: bold;">問題数非公表 ／ 10⚪︎4× ／ シングルチャンス ／ 4→1</p>
+            <p>各作問者の問題をランダムに出題する。</p>
           </section>
         </div>
 
-        <!-- 右側：画像エリア（準備中） -->
+        <!-- 右側（スマホ時は最下部）：画像エリア -->
         <div class="rules-image" v-fade>
+          <img src="flow_hontaikai.svg" alt="本大会のフロー図" />
         </div>
 
       </div>
@@ -439,7 +602,7 @@
             {{ creator.name }}
           </h3>
           <!-- ★ ここの文章も自動的に pタグ なので均等割付が適用されます -->
-          <p style="line-height: 1.8; white-space: pre-wrap;">{{ creator.intro }}</p>
+          <p style="line-height: 1.8; white-space: pre-wrap;" v-html="creator.intro"></p>
           
           <div class="example-questions" v-if="creator.questions && creator.questions.length > 0">
             <h4>例題</h4>
@@ -524,7 +687,7 @@
       {
         name: '白くま',
         icon: 'MEOTO_logo_icon-wan_gold.svg',
-        intro: '学生時代一番好きだった科目は数学です。学生時代は本屋でバイトして、就職して数年は図書館で働いていました。今は時間がないため、全然読書していないですね。命が足りません。映画館で映画を観るのが好きです。映画との出会いは1回しか体験できないので、初見の映画はできるだけ映画館で観ることにこだわっています。好きなジャンルは「バディもの」と「胸糞」です。',
+        intro: '学生時代一番好きだった科目は数学です。学生時代は本屋でバイトして、就職して数年は図書館で働いていました。今は時間がないため、全然読書していないですね。命が足りません。<br>映画館で映画を観るのが好きです。映画との出会いは1回しか体験できないので、初見の映画はできるだけ映画館で観ることにこだわっています。好きなジャンルは「バディもの」と「胸糞」です。',
         questions: [
           { text: 'ナチスに傾倒していた少年が、母親がかくまっていたユダヤ人の少女と出会ったことで自らの信念に疑問を持ち、ヒトラーのナショナリズムに向き合っていくという内容のタイカ・ワイティティ監督の映画は何でしょう？', answer: '『ジョジョ・ラビット』' },
           { text: 'アニメ公式ホームページには、各話で摂取した食べ物の総カロリーがまとめられている、『負けヒロインが多すぎる』に登場する食いしん坊 ”負けヒロイン”は誰でしょう？', answer: '八奈見杏菜（やなみ・あんな）' },
@@ -534,7 +697,7 @@
       {
         name: 'なかむー',
         icon: 'MEOTO_logo_icon-wan_red.svg',
-        intro: '３人の数学系の人に囲まれた、美術系専攻のなかむーです。デザインまわりの仕事をしています。かつて白くまと同じ本屋でバイトをしていました。軽めのミステリ、児童文学、軽めの自然科学あたりを通りつつ、漫画とゲームも好きです。最近のお気に入り作品は『プロジェクト・ヘイル・メアリー』。東北からの上京組。注）この大会では諸事情により鳥の問題はでません。ご留意ください。せっかくなので自分のコーナーではビジュアル問題を多めに用意したいと思っています。',
+        intro: '３人の数学系の人に囲まれた、美術系専攻のなかむーです。デザインまわりの仕事をしています。かつて白くまと同じ本屋でバイトをしていました。軽めのミステリ、児童文学、軽めの自然科学あたりを通りつつ、漫画とゲームも好きです。最近のお気に入り作品は「プロジェクト・ヘイル・メアリー」。東北からの上京組。注）この大会では諸事情により鳥の問題はでません。ご留意ください。<br>せっかくなので自分のコーナーではビジュアル問題を多めに用意したいと思っています。',
         questions: [
           { text: '参加者がそれぞれ手料理や飲み物を持ち寄り、みんなで分けて楽しむ形式のパーティーのことを、「鍋」と「幸運」を意味する英語を組み合わせて何と言うでしょう？', answer: 'ポットラックパーティー' },
           { text: '現在は保存のため実物は立ち入り禁止となっているものの、1983年公開の「2」や移動式の「3」、最新の「4」などのレプリカ施設が観光客に人気である、1940年にフランスで発見された旧石器時代の洞窟壁画は何でしょう？', answer: 'ラスコー洞窟壁画' },
