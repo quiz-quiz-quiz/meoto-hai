@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meoto杯 | クイズ大会</title>
   
+  <!-- OGP / X (Twitter) Cards -->
+  <meta property="og:title" content="Meoto杯 | クイズ大会">
+  <meta property="og:description" content="社会人スタートクイズプレーヤーの夫婦二組が、自分たちの出したいものをたくさん詰め込んでクイズ大会をお届けします。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://quiz-quiz-quiz.github.io/meoto-hai/">
+  <meta property="og:image" content="https://quiz-quiz-quiz.github.io/meoto-hai/gp_meotohai.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@QuizMEOTOhai">
+  <meta name="twitter:title" content="Meoto杯 | クイズ大会">
+  <meta name="twitter:description" content="社会人スタートクイズプレーヤーの夫婦二組が、自分たちの出したいものをたくさん詰め込んでクイズ大会をお届けします。">
+  <meta name="twitter:image" content="https://quiz-quiz-quiz.github.io/meoto-hai/gp_meotohai.png">
+  
   <!-- ★ファビコンの設定 -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   
@@ -450,8 +462,8 @@
             <p>3×すると解答権剝奪となる。（〇は残る）</p>
 
             <h4>セット終了時の判定</h4>
-            <p>勝ち抜けの早さ → 〇が多い順 → ×が少ない順 → 同率の場合、点数を按分
-            <span>（ただし、組み分けのための順位は、カードの数字が小さい順で決定する）</span></p>
+            <p>勝ち抜けの早さ → 〇が多い順 → ×が少ない順 → 同率の場合、点数を按分<br>
+            <span class="note">（ただし、組み分けのための順位は、カードの数字が小さい順 → スートが<span class="suit-badge badge-gold">♠</span>→<span class="suit-badge badge-red">♡</span>→<span class="suit-badge badge-gold">♣</span>→<span class="suit-badge badge-red">♢</span>の順で決定する）</span></p>
 
             <h4>組み分け</h4>
             <div class="table-responsive">
@@ -574,11 +586,11 @@
                 </tr>
                 <tr>
                   <td style="white-space: nowrap;"><strong>1組目</strong></td>
-                  <td style="white-space: normal; line-height: 1.6; text-align: left;">pt 1位, pt 4位, pt 5位, pt 8位, pt 9位, 敗者復活 2位</td>
+                  <td style="white-space: normal; line-height: 1.6; text-align: left;">pt 1位, pt 4位, pt 5位, pt 8位, pt 9位, 敗者復活 1位</td>
                 </tr>
                 <tr>
                   <td style="white-space: nowrap;"><strong>2組目</strong></td>
-                  <td style="white-space: normal; line-height: 1.6; text-align: left;">pt 2位, pt 3位, pt 6位, pt 7位, pt 10位, 敗者復活 1位</td>
+                  <td style="white-space: normal; line-height: 1.6; text-align: left;">pt 2位, pt 3位, pt 6位, pt 7位, pt 10位, 敗者復活 2位</td>
                 </tr>
               </table>
             </div>
@@ -651,10 +663,7 @@
         
         <!-- 左側：テキストエリア -->
         <div class="entry-box entry-text" v-fade>
-          <p class="entry-date">11月20日(金) 21:00開始</p>
-          <p>11月20日(金)21:00より、Meoto杯本大会・リハーサルのエントリーを開始します。<br>
-          エントリーフォームは、エントリー開始時刻に本大会Xアカウント(<a href="https://x.com/QuizMEOTOhai" target="_blank" style="color: var(--color-accent-red); text-decoration: underline;">@QuizMEOTOhai</a>)で公開いたします。<br>
-          エントリーリストは後ほどHPに掲載予定です。</p>
+          <p class="entry-date">エントリー受付中！</p>
 
           <div style="background-color: #fcfcfc; padding: 20px; border: 1px solid var(--color-border); margin-top: 25px;">
             <p style="font-weight: bold; margin-top: 0;">回答していただく内容は</p>
@@ -687,11 +696,11 @@
 
           <p style="margin-top: 40px; font-size: 0.9em; font-weight: bold; color: var(--color-accent-red);">エントリーフォーム入力後、キャンセルを希望される場合は、専用のキャンセルフォームからご連絡ください。</p>
           
-          <!-- <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 15px; align-items: center;">
-            
-            <a href="#" class="btn btn-entry" style="width: 280px; max-width: 100%;">エントリーフォームへ</a>
-            <a href="#" class="btn" style="width: 280px; max-width: 100%; border-color: #999; color: #666;">キャンセルフォームへ</a>
-          </div> -->
+          <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 15px; align-items: center;">
+            <a href="https://forms.gle/QMYv8w1Wf8vpBHeSA" target="_blank" rel="noopener noreferrer" class="btn btn-entry" style="width: 280px; max-width: 100%;">エントリーフォームへ</a>
+            <a href="https://forms.gle/miB5hYfR4kM7PhCe7" target="_blank" rel="noopener noreferrer" class="btn" style="width: 280px; max-width: 100%; border-color: #999; color: #666;">キャンセルフォームへ</a>
+            <a href="https://docs.google.com/spreadsheets/d/1j0dozZopnkVekI3skkMPR229UD11IbaHyiwJudAVEQY/edit?usp=sharing" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; margin-top: 10px;">現在のエントリーリストはこちら</a>
+          </div>
         </div>
 
         <!-- 右側：画像エリア -->
